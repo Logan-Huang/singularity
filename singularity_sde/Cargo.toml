@@ -10,6 +10,11 @@ workspace = true
 singularity_standard_tabs = { path = "../singularity_standard_tabs" }
 singularity_sar = { path = "../singularity_sar" }
 singularity_sttk = { path = "../singularity_sttk" }
-singularity_wl_compositor = { path = "../singularity_wl_compositor" }
 
 tracing-subscriber = { workspace = true }
+
+[target.'cfg(target_os = "linux")'.dependencies]
+singularity_wl_compositor = { path = "../singularity_wl_compositor" }
+
+[target.'cfg(target_os = "windows")'.dependencies]
+singularity_win_compositor = { path = "../singularity_win_compositor" }

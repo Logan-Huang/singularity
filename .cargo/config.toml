@@ -1,0 +1,4 @@
+# Windows: bindgen (used by the vendored msdfgen-sys) needs libclang.
+# Harmless on Linux, which uses msdfgen-sys's prebuilt bindings instead.
+[env]
+LIBCLANG_PATH = "C:\\Program Files\\LLVM\\bin"

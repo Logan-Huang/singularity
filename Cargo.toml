@@ -9,6 +9,20 @@ members = [
     "singularity_standard_tabs",
     "singularity_sar",
     "singularity_wl_compositor",
+    "singularity_win_compositor",
+]
+# The compositor crates only compile on their own platform (smithay is Linux-only,
+# the windows crate is Windows-only), so a bare `cargo build` skips them;
+# they still get built as target-specific dependencies of singularity_sde.
+default-members = [
+    "singularity_common",
+    "singularity_common/sonamu_ui",
+
+    "singularity_sporg",
+    "singularity_sde",
+    "singularity_sttk",
+    "singularity_standard_tabs",
+    "singularity_sar",
 ]
 resolver = "2"
 
@@ -27,6 +41,14 @@ image = { version = "^0.25" }
 
 sonamu_ui = { path = "./singularity_common/sonamu_ui" }
 sonamu_sync = { path = "./singularity_common/sonamu_sync" }
+
+# Vendored from crates.io 0.2.1 with two Windows fixes:
+# bindgen runs in C++17 mode (MSVC's STL won't parse as C++11), and the
+# wrapper's enum discriminants cast to u32 (clang types C++ enums as i32
+# on MSVC targets, u32 on Linux; the values are identical either way).
+[patch.crates-io]
+msdfgen = { path = "vendor/msdfgen" }
+msdfgen-sys = { path = "vendor/msdfgen-sys" }
 
 [workspace.lints.clippy]
 # all = "warn"

@@ -1,0 +1,27 @@
+[package]
+name = "singularity_win_compositor"
+version = "0.1.0"
+edition = "2024"
+
+[lints]
+workspace = true
+
+[dependencies]
+singularity_common = { path = "../singularity_common" }
+sonamu_ui = { workspace = true }
+singularity_sar = { path = "../singularity_sar" }
+singularity_sttk = { path = "../singularity_sttk" }
+
+log = { workspace = true }
+
+image = { workspace = true }
+
+windows = { version = "^0.62", features = [
+    "Win32_Foundation",
+    "Win32_Graphics_Gdi",
+    # PrintWindow lives here
+    "Win32_Storage_Xps",
+    "Win32_System_Threading",
+    "Win32_UI_Input_KeyboardAndMouse",
+    "Win32_UI_WindowsAndMessaging",
+] }

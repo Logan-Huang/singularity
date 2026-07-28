@@ -21,7 +21,11 @@ use wgpu::{
     CompositeAlphaMode, InstanceDescriptor, PresentMode, SurfaceConfiguration, SurfaceTarget,
     TextureFormat, TextureUsages, util::DeviceExt as _,
 };
-use winit::{event_loop::EventLoop, platform::wayland::EventLoopBuilderExtWayland, window::Window};
+#[cfg(target_os = "linux")]
+use winit::platform::wayland::EventLoopBuilderExtWayland;
+#[cfg(target_os = "windows")]
+use winit::platform::windows::EventLoopBuilderExtWindows;
+use winit::{event_loop::EventLoop, window::Window};
 
 mod rendering;
 pub mod ui_event;
@@ -189,11 +193,10 @@ pub struct UIDisplay {
 impl UIDisplay {
     /// Returns when display is closed.
     pub fn run_display(shared_data: SharedData<UIState>) {
-        let event_loop = EventLoop::builder()
-            .with_wayland()
-            .with_any_thread(true)
-            .build()
-            .unwrap();
+        let mut event_loop_builder = EventLoop::builder();
+        #[cfg(target_os = "linux")]
+        event_loop_builder.with_wayland();
+        let event_loop = event_loop_builder.with_any_thread(true).build().unwrap();
         event_loop
             .run_app(&mut Self {
                 shared_data,

@@ -27,6 +27,11 @@ dejavu = "^2.37.0"
 
 log = { workspace = true }
 
+# msdfgen-sys only ships prebuilt bindings for Linux targets;
+# on Windows it must generate them at build time (needs libclang)
+[target.'cfg(windows)'.dependencies]
+msdfgen = { version = "^0.2.1", features = ["bindgen"] }
+
 [features]
 default = ["winit_backend"]
 winit_backend = []
